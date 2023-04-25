@@ -1,7 +1,9 @@
 from qgis.core import (
     QgsProcessingAlgorithm,
-    QgsProcessingParameterFile,
-    QgsProcessingParameterFileDestination,
+    QgsProcessingParameterRasterLayer,
+    QgsProcessingParameterRasterDestination,
+    QgsMessageLog,
+    Qgis
 )
 from qgis.PyQt.QtCore import QCoreApplication
 
@@ -40,25 +42,24 @@ class AutoMaskGeneratorAlgorithm(QgsProcessingAlgorithm):
     
     def initAlgorithm(self, config=None):
         self.addParameter(
-            QgsProcessingParameterFile(
+            QgsProcessingParameterRasterLayer(
                 'input_image',
                 'Input Image',
-                #behavior=QgsProcessingParameterFile.File,
-                #extensions=['tiff', 'tif', 'png', 'jpg', 'jpeg'],
+                defaultValue=None,
+                optional=False,
             )
         )
         self.addParameter(
-            QgsProcessingParameterFileDestination(
+            QgsProcessingParameterRasterDestination(
                 'output_mask',
                 'Output Mask',
-                #behavior=QgsProcessingParameterFileDestination.File,
-                #extensions=['tif', 'tiff'],
+                createByDefault=True,
             )
         )
 
     def processAlgorithm(self, parameters, context, feedback):
-        input_image = self.parameterAsFile(parameters, 'input_image', context)
-        output_mask = self.parameterAsFileOutput(parameters, 'output_mask', context)
+        input_image = self.parameterAsRasterLayer(parameters, 'input_image', context)
+        output_mask = self.parameterAsOutputLayer(parameters, 'output_mask', context)
 
         device = 'cpu'
         settings_provider = Settings()
@@ -75,15 +76,17 @@ class AutoMaskGeneratorAlgorithm(QgsProcessingAlgorithm):
             sam_kwargs=None,
         )
 
-        feedback.pushInfo(f'Segmenting image: {input_image}')
-        feedback.pushInfo(f'Output: {output_mask}')
+        QgsMessageLog.logMessage(f'Segmenting image: {input_image.source()}',
+                                 tag='segment_anything', level=Qgis.Info)
+        QgsMessageLog.logMessage(f'Output: {output_mask}',
+                                 tag='segment_anything', level=Qgis.Info)
 
         try:
-            masks = Sam.generate(input_image, output_mask)
+            masks = Sam.generate(input_image.source(), output_mask)
             return {'output_mask': masks}
 
         except RuntimeError as e:
-            feedback.reportError(str(e))
+            QgsMessageLog.logMessage(str(e), tag='segment_anything', level=Qgis.Critical)
             return {}
 
     def _get_checkpoint_file(self, settings_provider):
@@ -106,4 +109,3 @@ class AutoMaskGeneratorAlgorithm(QgsProcessingAlgorithm):
             raise Exception('Model type not found')
 
         return model_type
-
