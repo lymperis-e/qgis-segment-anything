@@ -1,0 +1,51 @@
+{   
+    // I like changing colors for my projects. QGIS projects are usually green. 
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#000000",
+        "editor.background": "#0c0d0d"
+    },
+    
+    "python.linting.pylintEnabled": true,
+    "python.jediEnabled": true,
+
+    // Wait.. this isn't a python interpreter..
+    "python.pythonPath": "C:/OSGeo4W64/bin/python-qgis-ltr.bat",
+
+    // Some arguments to make pylint behave nicely with PyQt5 and qgis bindinds
+    "python.linting.pylintArgs": [
+        "--extension-pkg-whitelist=PyQt5,db_manager",
+        "--disable=all",
+        "--enable=F,E,unreachable,duplicate-key,unnecessary-semicolon,global-variable-not-assigned,unused-variable,binary-op-exception,bad-format-string,anomalous-backslash-in-string,bad-open-mode"
+    ],
+
+    // Replicate the QGIS environment on the terminal
+    // {{INSERT_YOUR_USER}} or any path really should be replaced with your own installation path
+    "terminal.integrated.env.windows": {
+        // Path
+        "PATH": "C:\\Program Files\\Git\\cmd;C:\\Users\\Work\\AppData\\Local\\GitHubDesktop\\bin;C:\\OSGEO4~1\\apps\\qgis\\bin;C:\\OSGEO4~1\\apps\\Python39;C:\\OSGEO4~1\\apps\\Python37\\Scripts;C:\\OSGEO4~1\\apps\\qt5\\bin;C:\\OSGEO4~1\\apps\\Python27\\Scripts;C:\\OSGEO4~1\\bin;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\system32\\WBem;C:\\OSGEO4~1\\apps\\Python37\\lib\\site-packages\\pywin32_system32;C:\\OSGEO4~1\\apps\\Python37\\lib\\site-packages\\numpy\\.libs",
+        // Python
+        "PYTHONHOME": "C:\\OSGEO4~1\\apps\\Python39",
+        "PYTHONPATH": "C:\\OSGEO4~1\\apps\\qgis\\python;%PYTHONPATH%",
+        // GDAL
+        "GDAL_DATA": "C:\\OSGEO4~1\\share\\gdal",
+        "GDAL_DRIVER_PATH": "C:\\OSGEO4~1\\bin\\gdalplugins",
+        "GDAL_FILENAME_IS_UTF8": "YES",
+        // GeoTIFF
+        "GEOTIFF_CSV": "C:\\OSGEO4~1\\share\\epsg_csv",
+        // Qt
+        "O4W_QT_BINARIES": "C:/OSGEO4~1/apps/Qt5/bin",
+        "O4W_QT_DOC": "C:/OSGEO4~1/apps/Qt5/doc",
+        "O4W_QT_HEADERS": "C:/OSGEO4~1/apps/Qt5/include",
+        "O4W_QT_LIBRARIES": "C:/OSGEO4~1/apps/Qt5/lib",
+        "O4W_QT_PLUGINS": "C:/OSGEO4~1/apps/Qt5/plugins",
+        "O4W_QT_PREFIX": "C:/OSGEO4~1/apps/Qt5",
+        "O4W_QT_TRANSLATIONS": "C:/OSGEO4~1/apps/Qt5/translations",
+        "QT_PLUGIN_PATH": "C:\\OSGEO4~1\\apps\\qgis\\qtplugins;C:\\OSGEO4~1\\apps\\qt5\\plugins",
+        // QGIS
+        "QGIS_PREFIX_PATH": "C:/OSGEO4~1/apps/qgis",
+        // Cache
+        "VSI_CACHE": "TRUE",
+        "VSI_CACHE_SIZE": "1000000"
+    },
+    //"python.languageServer": "Jedi", // PyLancer just came out recently, but i havent tested it out with this configuration
+}

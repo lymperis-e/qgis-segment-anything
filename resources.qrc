@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/qgs_segmet_anything" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>
